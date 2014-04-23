@@ -1,0 +1,37 @@
+@(title: String = "Paperclips!")(content: Html)
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>@title</title>
+        <link rel="stylesheet" href="@routes.Assets.at("bootstrap/css/bootstrap.min.css")"
+        type="text/css" media="screen"/>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")" media="screen" type="text/css"/>
+        <script  src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")"
+        type="text/javascripts" ></script>
+        <link rel="shortcut icon" href="@routes.Assets.at("images/favicon.png")" type="image/png"/>
+    </head>
+
+    <body>
+        @navigation()
+        <div class="container">
+            @if(flash.containsKey("success")){
+                <div class="alert alert-success">
+                @flash.get("success")
+                </div>
+            }
+
+            @if(flash.containsKey("error")) {
+                <div class="alert alert-error">
+                @flash.get("error")
+                </div>
+            }
+           @content
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <p>Copyright &copy;2014 paperclips.example.com</p>
+            </div>
+        </footer>
+    </body>
+</html>

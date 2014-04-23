@@ -1,0 +1,80 @@
+@(currentPage: com.avaje.ebean.Page[Product])
+@main("Products Catalogue") {
+<h2>All products</h2>
+   <table class="table table-striped">
+    <thead><tr>
+        <th>EAN</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr></thead>
+    <tbody>
+        @for(product <- currentPage.getList()) {
+            <tr>
+                <td><a href="@routes.Products.details(product)">
+                @product.ean
+                </a></td>
+                <td><a href="@routes.Products.details(product)">
+                @product.name
+                </a></td>
+                <td>
+                    <a href="@routes.Products.details(product)">
+                    @product.description
+                </a></td>
+                <td>
+                    <a href="@routes.Products.details(product)">
+                        <i class="icon icon-pencil">Edit</i>
+                    </a>
+                    <a onclick="del('@routes.Products.delete(product ean)')" >
+                        <i class="icon icon-trash">Trash</i>
+                    </a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+    <div class="pagination" id="pagination">
+        <ul>
+            @if(currentPage.hasPrev) {
+            <li class="prev">
+                <a href="@routes.Products.list(currentPage.getPageIndex-1)">
+                    &larr;
+                </a>
+            </li>
+            } else {
+                <li class="prev disabled">
+                    <a href="">&larr;</a>
+                </li>
+            }
+            <li class="current">
+                <a>@currentPage.getDisplayXtoYofZ( " - "," / ")</a>
+            </li>
+            
+            @if(currentPage.hasNext) {
+                <li class="next">
+                    <a href="@routes.Products.list(currentPage.getPageIndex + 1)">
+                        &rarr;
+                    </a>
+                </li>
+            } else {
+                <a class="next disabled" href="">
+                    &rarr;
+                </a>
+            }
+        </ul>
+    </div>
+    <a href="@routes.Products.newProduct()" class="btn">
+        <i class="icon-plus"></i> New product</a>
+
+    <script>
+        function del( urlToDelete ) {
+        $.ajax({
+            url: urlToDelete,
+            type: 'DELETE',
+            success: function( result ){
+                location.reload();
+            }
+
+        });
+        }
+    </script>
+}
+

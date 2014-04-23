@@ -1,0 +1,29 @@
+@(productForm: Form[Product])
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("Product form") {
+    <h1>Product Form</h1>
+    @helper.form(action = routes.Products.save(),
+        'enctype -> "multipart/form-data") {
+        <fieldset>
+            <legend>Product (@productForm("name").valueOr("New"))</legend>
+            <input type="hidden" value="@productForm("id").valueOr(" ")" name="id"/>
+            @helper.inputText(productForm("ean"), '_label -> "EAN")
+            @helper.inputText(productForm("name"), '_label -> "Name")
+            @helper.textarea(productForm("description"), '_label -> "Description")
+            @helper.inputFile(productForm("picture"))
+            @if(!productForm("picture").valueOr("").isEmpty()) {
+                <div class="control-group">
+                    <div class="controls">
+
+                        <img style="position:relative; left:50px: height:80px"
+                            src="/picture/@productForm("ean").value" alt="@productForm("name")"/>
+                    </div>
+                </div>
+            }
+        </fieldset>
+        <input class="btn btn-primary" type="submit" value="Save"/>
+        <a class="btn btn-default" href="@routes.Products.index()">Cancel</a>
+    }
+    }
